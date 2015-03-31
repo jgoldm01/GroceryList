@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">GroceryLists</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <!--strings used by main-->
+    <string name="mainAddHint">Enter a List Name</string>
+
+    <string name="newListTitle">New List</string>
+    <string name="inventoryTitle">Inventory</string>
+    <string name="inventoryLabel">Inventory</string>
+    <string name="inventoryAddHint">Enter a Food</string>
+
+    <!--strings used by food-->
+    <string name="foodTitle">Food Status</string>
+
+    <!--strings used by gList-->
+    <string name="gListTitle">List</string>
+    <string name="gListAddHint">Enter a Food</string>
+
+    <string name="colorMenuYellow">#FFFFAA</string>
+</resources>

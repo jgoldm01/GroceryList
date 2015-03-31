@@ -1,0 +1,38 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="@color/menu_yellow"
+    tools:context=".MainActivity">
+    <LinearLayout
+        android:id="@+id/main_new_gList"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+        <EditText android:id="@+id/main_gList_entry"
+            android:paddingLeft="15dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/mainAddHint"
+            android:textSize="20sp"
+            android:layout_weight="1"
+            />
+        <Button android:id="@+id/main_add_gList_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add"
+            android:onClick="addGList"/>
+    </LinearLayout>
+    <ListView
+        android:id="@+id/main_list"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_below="@id/main_new_gList">
+    </ListView>
+
+
+</RelativeLayout>

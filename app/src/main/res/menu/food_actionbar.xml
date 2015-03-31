@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:grocerylist="http://schemas.android.com/apk/res-auto">
+
+    <!--leads to the inventory activity-->
+    <item android:id="@+id/food_return_to_parent"
+        android:icon="@drawable/ic_back"
+        android:title="@string/inventoryTitle"
+        grocerylist:showAsAction="ifRoom" />
+
+    <!--title for the menu-->
+    <item android:id="@+id/food_title"
+        android:text="foood"
+        android:title="@string/foodTitle"
+        grocerylist:showAsAction="ifRoom" />
+
+
+
+
+</menu>

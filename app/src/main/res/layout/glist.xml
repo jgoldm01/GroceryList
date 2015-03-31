@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:background="@color/menu_yellow">
+
+    <TextView
+        android:id="@+id/gList_specific_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:text="List"
+        android:layout_centerHorizontal="true"/>
+    <LinearLayout
+        android:id="@+id/gList_new_food"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_below="@id/gList_specific_name"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+        <EditText android:id="@+id/gList_food_entry"
+            android:paddingLeft="15dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/gListAddHint"
+            android:textSize="20sp"
+            android:layout_weight="1"
+            />
+        <Button android:id="@+id/gList_add_food_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add"
+            android:onClick="addFood"/>
+    </LinearLayout>
+    <ListView
+        android:id="@+id/gList_list"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_below="@id/gList_new_food">
+    </ListView>
+
+</RelativeLayout>

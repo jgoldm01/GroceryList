@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal">
+    <TextView
+        android:id="@+id/specific_food"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="yum"
+        android:textSize="40sp"
+        android:layout_centerHorizontal="true"/>
+    <TextView
+        android:id="@+id/supply_level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/specific_food"
+        android:text="Supply: Good"
+        android:textSize="30sp"
+        android:layout_centerHorizontal="true"/>
+    <RelativeLayout
+        android:id="@+id/supply_update"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/supply_level">
+        <TextView
+            android:id="@+id/supply_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="How is your supply?"
+            android:textSize="20sp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/supply_question">
+            <Button
+                android:id="@+id/good"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Good"
+                android:layout_weight="1"
+                android:onClick="setSupply"/>
+            <Button
+                android:id="@+id/low"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Low"
+                android:layout_weight="1"
+                android:onClick="setSupply"/>
+            <Button
+                android:id="@+id/none"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="None"
+                android:layout_weight="1"
+                android:onClick="setSupply"/>
+        </LinearLayout>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/food_notes_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/supply_update"
+        android:paddingTop="5dp">
+        <TextView
+            android:id="@+id/notes_descriptor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Notes:"
+            android:textSize="20sp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"/>
+        <EditText
+            android:id="@+id/food_notes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/notes_descriptor"
+            android:textSize="15sp"/>
+
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/list_statement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Found in the following lists:"
+        android:textSize="20sp"
+        android:layout_below="@id/food_notes_container"/>
+
+    <Button android:id="@+id/food_return_to_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:onClick="returnToParent"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"/>
+
+    <GridView
+        android:id="@+id/list_grid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnWidth="90dp"
+        android:numColumns="auto_fit"
+        android:verticalSpacing="10dp"
+        android:horizontalSpacing="10dp"
+        android:stretchMode="columnWidth"
+        android:gravity="center"
+        android:layout_below="@id/list_statement"
+        android:layout_above="@id/food_return_to_parent"/>
+
+
+
+</RelativeLayout>
