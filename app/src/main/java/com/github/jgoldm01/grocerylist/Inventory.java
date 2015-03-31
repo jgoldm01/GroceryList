@@ -12,7 +12,7 @@ public class Inventory {
         foods = new ArrayList<Food>();
     }
 
-    public ArrayList getFoods() {
+    public ArrayList <Food> getFoods() {
         return foods;
     }
 

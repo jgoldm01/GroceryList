@@ -49,7 +49,7 @@ public class FoodActivity extends ActionBarActivity {
 
         //sets the grid view of lists containing the food
         gridView =  (GridView) findViewById(R.id.list_grid);
-        String[] gLists = food.getGLists();
+        String[] gLists = food.getStringGLists();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, gLists);
         gridView.setAdapter(adapter);
@@ -72,6 +72,7 @@ public class FoodActivity extends ActionBarActivity {
         super.onPause();
         String notes = notesView.getText().toString().trim();
         food.setNotes(notes);
+        dataController.storeFoodData(food);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {

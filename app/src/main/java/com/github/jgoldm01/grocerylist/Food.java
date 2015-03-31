@@ -45,7 +45,7 @@ public class Food {
         supply = supplyLevel;
     }
 
-    public String[] getGLists() {
+    public String[] getStringGLists() {
         String[] gListNames = new String[gLists.size()];
         int index = 0;
         for (GList l : gLists) {
@@ -53,6 +53,10 @@ public class Food {
             index++;
         }
         return gListNames;
+    }
+
+    public ArrayList<GList> getGLists() {
+        return gLists;
     }
 
 }

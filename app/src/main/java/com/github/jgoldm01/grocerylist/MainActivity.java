@@ -1,6 +1,8 @@
 package com.github.jgoldm01.grocerylist;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,6 +31,8 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dataController = DataController.getController();
+        //sets the context so that the dataController can access sharedPreferences
+        dataController.setContext(this.getApplicationContext());
         setContentView(R.layout.activity_main);
 
         listView = (ListView) findViewById(R.id.main_list);
@@ -43,12 +47,21 @@ public class MainActivity extends ActionBarActivity {
                 goToGListActivity(itemValue);
             }
         });
+
+        dataController.getData();
     }
 
     protected void onResume () {
         super.onResume();
         updateListView();
     }
+
+    protected void onStop() {
+        super.onStop();
+        dataController.storeData();
+    }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -72,8 +85,6 @@ public class MainActivity extends ActionBarActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
-
 
     // gets editText string, removes spaces before and after. checks edge case of empty string
     // if not empty string
