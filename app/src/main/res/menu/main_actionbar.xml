@@ -2,16 +2,27 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:grocerylist="http://schemas.android.com/apk/res-auto">
 
+    <!--the switch for delete mode-->
+    <item android:id="@+id/main_actionbar_delete_icon"
+        android:icon="@mipmap/ic_delete"
+        android:title="Delete Mode Switch"
+        grocerylist:showAsAction="always" />
+
     <!--leads to the inventory activity-->
     <item android:id="@+id/menu_inventory_button"
         android:icon="@mipmap/ic_fruit_basket"
         android:title="@string/inventoryTitle"
-        grocerylist:showAsAction="ifRoom" />
+        grocerylist:showAsAction="always" />
 
     <!--leads to a new list activity-->
     <item android:id="@+id/menu_main_button"
         android:icon="@mipmap/ic_home"
         android:title="@string/newListTitle"
-        grocerylist:showAsAction="ifRoom"/>
+        grocerylist:showAsAction="always"/>
+
+    <item android:id="@+id/menu_main_settings"
+        android:icon="@mipmap/ic_settings"
+        android:title="Settings"
+        grocerylist:showAsAction="always"/>
 
 </menu>

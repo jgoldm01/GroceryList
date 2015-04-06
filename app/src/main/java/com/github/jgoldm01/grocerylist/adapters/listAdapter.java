@@ -2,11 +2,14 @@ package com.github.jgoldm01.grocerylist.adapters;
 
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import com.github.jgoldm01.grocerylist.Constants.Colors;
 import com.github.jgoldm01.grocerylist.*;
@@ -52,6 +55,13 @@ public class listAdapter extends ArrayAdapter{
             case "food":        Food food = (Food) data.get(position);
                                 itemName.setText(food.getName());
                                 itemNotes.setText(food.getNotes());
+                                if (food.getNotes().equalsIgnoreCase("")) {
+                                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, 0, 0);
+                                    itemNotes.setLayoutParams(params);
+                                } else {
+                                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1);
+                                    itemNotes.setLayoutParams(params);
+                                }
                                 itemPic.setImageResource(R.drawable.ic_apple);
                                 switch (food.getSupply()) {
                                     case "Good":    itemPic.setImageResource(R.mipmap.ic_green_apple);

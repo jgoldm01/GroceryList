@@ -35,6 +35,11 @@
             android:label="@string/foodTitle"
             android:windowSoftInputMode="adjustPan">
         </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/foodTitle"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
     </application>
 
 </manifest>

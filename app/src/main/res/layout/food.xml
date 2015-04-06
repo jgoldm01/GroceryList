@@ -86,14 +86,14 @@
         android:textSize="20sp"
         android:layout_below="@id/food_notes_container"/>
 
-    <Button android:id="@+id/food_return_to_parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Back"
-        android:onClick="returnToParent"
-        android:layout_alignParentBottom="true"
-        android:gravity="center"
-        android:layout_centerHorizontal="true"/>
+    <!--<Button android:id="@+id/food_return_to_parent"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Back"-->
+        <!--android:onClick="returnToParent"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:gravity="center"-->
+        <!--android:layout_centerHorizontal="true"/>-->
 
     <GridView
         android:id="@+id/list_grid"
@@ -105,8 +105,7 @@
         android:horizontalSpacing="10dp"
         android:stretchMode="columnWidth"
         android:gravity="center"
-        android:layout_below="@id/list_statement"
-        android:layout_above="@id/food_return_to_parent"/>
+        android:layout_below="@id/list_statement"/>
 
 
 

@@ -10,8 +10,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.github.jgoldm01.grocerylist.Utilities.StringCheck;
 import com.github.jgoldm01.grocerylist.adapters.listAdapter;
 
 import java.util.ArrayList;
@@ -24,6 +27,7 @@ public class GListActivity extends ActionBarActivity {
     GList gList;
     DataController dataController;
     ListView listView;
+    Menu menu;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,22 +45,21 @@ public class GListActivity extends ActionBarActivity {
 
         listView = (ListView) findViewById(R.id.gList_list);
         updateListView();
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Food foodToVisit = (Food) listView.getItemAtPosition(position);
-                String foodName = foodToVisit.getName();
-                goToFoodActivity(foodName);
-            }
-        });
     }
 
+    //update the listView of foods and set the color according to preferences
     protected void onResume () {
         super.onResume();
         updateListView();
+        gList.updateEditTime();
+        if (dataController.getSortMechanism().equalsIgnoreCase("edited")) {
+            dataController.sortGLists();
+            //todo:sort each food's list of glists?
+        }
+        setColor();
     }
 
+    //when activity no longer viewable, update last editTime, and store the data
     protected void onStop() {
         super.onStop();
         dataController.storeData();
@@ -65,6 +68,12 @@ public class GListActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_actionbar, menu);
+        this.menu = menu;
+        if (dataController.isDeleteMode()) {
+            toDeleteMode();
+        } else {
+            toNormalMode();
+        }
         return true;
     }
 
@@ -76,6 +85,10 @@ public class GListActivity extends ActionBarActivity {
         Intent intent;
         int id = item.getItemId();
         switch(id) {
+            case R.id.menu_main_settings:
+                intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
             case R.id.menu_inventory_button:
                 intent = new Intent(this, InventoryActivity.class);
                 startActivity(intent);
@@ -84,9 +97,45 @@ public class GListActivity extends ActionBarActivity {
                 intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
                 return true;
+            case R.id.main_actionbar_delete_icon:
+                if (dataController.isDeleteMode()) {
+                    toNormalMode();
+                } else {
+                    toDeleteMode();
+                }
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void toNormalMode() {
+        menu.getItem(0).setIcon(getResources().getDrawable(R.mipmap.ic_delete));
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Food foodToVisit = (Food) listView.getItemAtPosition(position);
+                String foodName = foodToVisit.getName();
+                goToFoodActivity(foodName);
+            }
+        });
+
+        dataController.setDeleteMode(false);
+    }
+
+    private void toDeleteMode() {
+        menu.getItem(0).setIcon(getResources().getDrawable(R.mipmap.ic_checkmark));
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                gList.deleteFood(position);
+                updateListView();
+            }
+        });
+
+        dataController.setDeleteMode(true);
     }
 
     //adding a new food to a list.
@@ -99,18 +148,23 @@ public class GListActivity extends ActionBarActivity {
         String newFoodName = editText.getText().toString().trim();
 
         if (!newFoodName.equals("")) {
-            Food newFood = new Food(newFoodName);
-            //set supply because if this object is used, it was initialized in the list
-            newFood.setSupply("None");
+            if (StringCheck.isNotInt(newFoodName)) {
+                Food newFood = new Food(newFoodName);
+                //set supply because if this object is used, it was initialized in the list
+                newFood.setSupply("None");
 
-            //adds newFood to inventory OR returns the already extant object
-            newFood = dataController.addReturnFromInventory(newFood);
-            if (!gList.addFood(newFood)) {
-                Toast.makeText(getApplicationContext(), newFoodName + " is already in this list!",
-                        Toast.LENGTH_LONG).show();
+                //adds newFood to inventory OR returns the already extant object
+                newFood = dataController.addReturnFromInventory(newFood);
+                if (!gList.addFood(newFood, dataController.getSortMechanism())) {
+                    Toast.makeText(getApplicationContext(), newFoodName + " is already in this list!",
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    //todo: have this function be sorted
+                    newFood.addGList(gList);
+                    updateListView();
+                }
             } else {
-                newFood.addGList(gList);
-                updateListView();
+                Toast.makeText(getApplicationContext(), "Enter a name, not a number!", Toast.LENGTH_SHORT).show();
             }
         }
         editText.setHint("Enter a Food");
@@ -120,13 +174,13 @@ public class GListActivity extends ActionBarActivity {
     //returns a string array of the foods in the GList
     private void updateListView() {
         ArrayList foods = gList.getFoods();
-
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-//                android.R.layout.simple_list_item_1, android.R.id.text1, foods);
-
         listAdapter adapter = new listAdapter(this, R.layout.list_adapter, foods, "food");
-
         listView.setAdapter(adapter);
+    }
+
+    private void setColor() {
+        RelativeLayout rl = (RelativeLayout)findViewById(R.id.glist_relativeLayout);
+        rl.setBackgroundColor(dataController.getColor());
     }
 
     //opens the FoodActivity class, and passes the name of the food in the intent

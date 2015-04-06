@@ -2,4 +2,13 @@
 <resources>
     <color name="menu_yellow">#ffffaa</color>
 
+    <color name="settings_red">#FFA5A5</color>
+    <color name="settings_orange">#FFFFE5AA</color>
+    <color name="settings_yellow">#FFFFFDA5</color>
+    <color name="settings_green">#FF9EFFA4</color>
+    <color name="settings_blue">#99FFFF</color>
+    <color name="settings_purple">#FFE5CCFF</color>
+    <color name="settings_pink">#FFFFDBDB</color>
+    <color name="settings_dark_blue">#FF99CCFF</color>
+    <color name="settings_white">#FFFFFFFF</color>
 </resources>

@@ -28,6 +28,7 @@ public class FoodActivity extends ActionBarActivity {
     DataController dataController;
     GridView gridView;
     TextView notesView;
+    Menu menu;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,22 +50,19 @@ public class FoodActivity extends ActionBarActivity {
 
         //sets the grid view of lists containing the food
         gridView =  (GridView) findViewById(R.id.list_grid);
-        String[] gLists = food.getStringGLists();
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, gLists);
-        gridView.setAdapter(adapter);
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String itemValue = (String) gridView.getItemAtPosition(position);
-                goToGListActivity(itemValue);
-            }
-        });
+        updateGridView();
     }
 
     protected void onResume () {
         super.onResume();
         String notes = food.getNotes();
+        food.updateEditTime();
+        if (dataController.getSortMechanism().equalsIgnoreCase("edited")) {
+            dataController.sortInventory();
+            for (GList g: food.gLists) {
+                g.sort("edited");
+            }
+        }
         notesView.setText(notes);
     }
 
@@ -78,6 +76,12 @@ public class FoodActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_actionbar, menu);
+        this.menu = menu;
+        if (dataController.isDeleteMode()) {
+            toDeleteMode();
+        } else {
+            toNormalMode();
+        }
         return true;
     }
 
@@ -90,6 +94,10 @@ public class FoodActivity extends ActionBarActivity {
         Intent intent;
         int id = item.getItemId();
         switch(id) {
+            case R.id.menu_main_settings:
+                intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
             case R.id.menu_inventory_button:
                 intent = new Intent(this, InventoryActivity.class);
                 startActivity(intent);
@@ -98,9 +106,47 @@ public class FoodActivity extends ActionBarActivity {
                 intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
                 return true;
+            case R.id.main_actionbar_delete_icon:
+                if (dataController.isDeleteMode()) {
+                    toNormalMode();
+                } else {
+                    toDeleteMode();
+                }
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void toNormalMode() {
+        menu.getItem(0).setIcon(getResources().getDrawable(R.mipmap.ic_delete));
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String itemValue = (String) gridView.getItemAtPosition(position);
+                goToGListActivity(itemValue);
+            }
+        });
+        dataController.setDeleteMode(false);
+    }
+
+    private void toDeleteMode() {
+        menu.getItem(0).setIcon(getResources().getDrawable(R.mipmap.ic_checkmark));
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                food.deleteGList(position);
+                updateGridView();
+            }
+        });
+        dataController.setDeleteMode(true);
+    }
+
+    private void updateGridView() {
+        String[] gLists = food.getStringGLists();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, android.R.id.text1, gLists);
+        gridView.setAdapter(adapter);
     }
 
     private void updateSupplyUI(String supply) {
